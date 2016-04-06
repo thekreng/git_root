@@ -38,7 +38,7 @@ bool fcv(unsigned char fc)
 {
 	return ((0x10)&(fc)) ? true : false;
 }
-
+//
 void stationType(ostream& os, unsigned char fc)
 {
 	switch (fc&(0x30))
