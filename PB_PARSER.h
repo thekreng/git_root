@@ -212,6 +212,7 @@ enum
 	WRONG_ED = 0x04,	// Incorrect end byte (almost always must be 0x16)
 	LE_ERR = 0x08,		// LE!=LEr (different 2nd and 3rd bytes for SD= 0x68)
 	SD2_ERR = 0x10		// different SD2 (byte 1 and 4)
+	// Add UNDEFINED ERROR type in C# RELEASE
 };
 
 enum
