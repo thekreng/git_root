@@ -1,0 +1,10 @@
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.Form1.resources
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.Properties.Resources.resources
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.csproj.GenerateResource.Cache
+C:\_code\COM_READER\COM_READER\bin\Debug\COM_READER.exe
+C:\_code\COM_READER\COM_READER\bin\Debug\COM_READER.pdb
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.exe
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.pdb
+C:\_code\COM_READER\COM_READER\obj\x86\Debug\COM_READER.csprojResolveAssemblyReference.cache
+C:\_code\v1.1\COM_READER\COM_READER\obj\x86\Debug\COM_READER.exe
+C:\_code\v1.1\COM_READER\COM_READER\obj\x86\Debug\COM_READER.pdb
