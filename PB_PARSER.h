@@ -6,7 +6,7 @@
 #include <string>
 
 using namespace std;
-
+// HI MY FRIEND!!! THIS IS YOUR HEADER! 
 template <typename T> unsigned short toUnsignedShort(T data) 
 { 
 	return static_cast<unsigned short>(data);
