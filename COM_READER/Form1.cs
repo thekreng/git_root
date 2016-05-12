@@ -13,6 +13,7 @@ using System.Timers;
 
 namespace COM_READER
 {
+    //I TRIED TO MAKE WINDOWS FORM APPLICATION AND ADD SOME FUNCTIONS
     public partial class Form1 : Form
     {
         public Form1()
