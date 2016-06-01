@@ -140,7 +140,7 @@ namespace Grap
                 else
                     bufferedGraphics.Graphics.FillEllipse(bb, PAP[i].pos);
             }
-        }//Хороший код
+        }//Хороший код 
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
