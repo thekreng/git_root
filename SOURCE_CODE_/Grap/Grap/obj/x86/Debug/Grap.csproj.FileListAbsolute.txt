@@ -6,3 +6,5 @@ c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86
 c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.exe
 c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.pdb
 C:\Users\Станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.csprojResolveAssemblyReference.cache
+E:\_git_repo\SOURCE_CODE_\Grap\Grap\obj\x86\Debug\Grap.exe
+E:\_git_repo\SOURCE_CODE_\Grap\Grap\obj\x86\Debug\Grap.pdb
