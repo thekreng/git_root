@@ -53,3 +53,5 @@ C:\Users\Roman\Desktop\PROFI_TRANSFORMER\COM_READER\obj\x86\Release\COM_READER.P
 C:\Users\Roman\Desktop\PROFI_TRANSFORMER\COM_READER\obj\x86\Release\COM_READER.csproj.GenerateResource.Cache
 C:\Users\Roman\Desktop\PROFI_TRANSFORMER\COM_READER\obj\x86\Release\COM_READER.exe
 C:\Users\Roman\Desktop\PROFI_TRANSFORMER\COM_READER\obj\x86\Release\COM_READER.pdb
+E:\_git_repo\SOURCE_CODE_\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.exe
+E:\_git_repo\SOURCE_CODE_\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.pdb

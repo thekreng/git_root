@@ -1050,7 +1050,7 @@ public unsafe class PB_SD3 : PB_Base {
                 _serialPortCPU.Close();
             }
             
-        }
+        }//Событие появления данных на порту контроллера
         private void DataReceivedHandlerSLAVE(object sender, SerialDataReceivedEventArgs e)
         {
             if (_continue == true)
@@ -1082,7 +1082,7 @@ public unsafe class PB_SD3 : PB_Base {
                 _serialPortSLAVE.Close();
             }
 
-        }
+        }//Событие появления данных на порту, подключенному к полю
 
         bool IS_OPEN = false;
         string name = "TEST NAME";
