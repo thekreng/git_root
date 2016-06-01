@@ -18,9 +18,9 @@ namespace COM_READER
     public partial class Form1 : Form
     {
         static bool _continue = true;
-        static SerialPort _serialPortCPU = new SerialPort();
+        SerialPort _serialPortCPU = new SerialPort();
         
-        static SerialPort _serialPortSLAVE = new SerialPort();
+        SerialPort _serialPortSLAVE = new SerialPort();
 
         public Form1()
         {
