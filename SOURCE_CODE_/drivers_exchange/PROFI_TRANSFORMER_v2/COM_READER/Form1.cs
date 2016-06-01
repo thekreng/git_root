@@ -1025,7 +1025,7 @@ public unsafe class PB_SD3 : PB_Base {
             {
                 try
                 {
-                    //Thread.Sleep(300);//Даем больше времени на ожидание данных//////////////////////////////////////////////////////////////////////////////////1
+                    Thread.Sleep(300);//Даем больше времени на ожидание данных//////////////////////////////////////////////////////////////////////////////////1
                     int byteRecieved = _serialPortCPU.BytesToRead;
                     prev_count = byteRecieved;
                     byte[] messByte = new byte[byteRecieved];
