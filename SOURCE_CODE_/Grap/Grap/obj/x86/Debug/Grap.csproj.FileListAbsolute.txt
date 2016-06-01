@@ -1,0 +1,8 @@
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\bin\Debug\Grap.exe
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\bin\Debug\Grap.pdb
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.Form1.resources
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.Properties.Resources.resources
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.csproj.GenerateResource.Cache
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.exe
+c:\users\станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.pdb
+C:\Users\Станиslave\documents\visual studio 2010\Projects\Grap\Grap\obj\x86\Debug\Grap.csprojResolveAssemblyReference.cache
