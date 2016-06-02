@@ -10,8 +10,8 @@ using System.Threading;
 using System.IO.Ports;
 using System.IO;
 using System.Timers;
-using System.Threading;
 using System.Threading.Tasks;
+using COM_READER.CLASSES;
 
 namespace COM_READER
 {
@@ -2011,21 +2011,28 @@ public unsafe class PB_SD3 : PB_Base {
             {
                 try
                 {
-                    string message = _serialPortSLAVE.ReadLine();
-                    MessageBox.Show(message);
+                    //string message = _serialPortSLAVE.ReadLine();
+                    //MessageBox.Show(message);
                 }
                 catch (TimeoutException) { }
             }
         }
         bool tested = false;
+        
         private void button5_Click(object sender, EventArgs e)
         {
-            RESRV_FACT = false;
-            //int OFFSET = 0;
-            tested = true;
+            COM_PORT COM2 = new COM_PORT(2, 19200);
+            byte[] IN = null;
+            COM_PORT COM3 = new COM_PORT(3, 19200);
+            COM2.ByteReceived += IN;
+
+
+           
             
             //MessageBox.Show(newArray[1924].ToString() + " " + newArray[1925].ToString() + " "+newArray[1926].ToString() + " "+newArray[1927].ToString() + " "+ newArray[1928].ToString() + " ");
-            ParseForFrame(newArray.ToArray<byte>());
+           // ParseForFrame(newArray.ToArray<byte>());
         }
+
+       
     }
 }
