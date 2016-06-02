@@ -17,17 +17,26 @@ namespace COM_READER
 {
     public partial class Form1 : Form
     {
-        static bool _continue = true;
-        SerialPort _serialPortCPU = new SerialPort();
+        COM_PORT COM_CPU = new COM_PORT(3, 19200);
+        COM_PORT COM_SLAVE = new COM_PORT(2, 19200);
+
+
+
+        static bool _continue = false;
+        //SerialPort _serialPortCPU = new SerialPort();
         
-        SerialPort _serialPortSLAVE = new SerialPort();
+        //SerialPort _serialPortSLAVE = new SerialPort();
 
         public Form1()
         {
-            Thread readThread = new Thread(Read);
+
+            COM_CPU.ByteReceived += DataReceivedHandlerSLAVE;
+            COM_SLAVE.ByteReceived += DataReceivedHandlerCPU;
+
+            //Thread readThread = new Thread(Read);
             InitializeComponent();
-            _serialPortCPU.WriteTimeout = 1000000;
-            _serialPortSLAVE.WriteTimeout = 1000000;
+            //_serialPortCPU.WriteTimeout = 1000000;
+            //_serialPortSLAVE.WriteTimeout = 1000000;
             foreach (string s in SerialPort.GetPortNames())
             {
                 listBoxAvalPorts.Items.Add(s);
@@ -54,14 +63,17 @@ namespace COM_READER
             listBoxStopBits.SetSelected(1, true);
             listBoxEndHandshake.SetSelected(0, true);
             // Set the read/write timeouts
-            _serialPortCPU.ReadTimeout = Convert.ToInt32(textBoxReadTime.Text);
-            _serialPortCPU.WriteTimeout = Convert.ToInt32(textBoxWrTime.Text);
-            _serialPortCPU.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandlerCPU);
+
+            
+
+            //_serialPortCPU.ReadTimeout = Convert.ToInt32(textBoxReadTime.Text);
+            //_serialPortCPU.WriteTimeout = Convert.ToInt32(textBoxWrTime.Text);
+            //_serialPortCPU.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandlerCPU);
 
 
-            _serialPortSLAVE.ReadTimeout = Convert.ToInt32(textBoxReadTime.Text);
-            _serialPortSLAVE.WriteTimeout = Convert.ToInt32(textBoxWrTime.Text);
-            _serialPortSLAVE.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandlerSLAVE);
+            //_serialPortSLAVE.ReadTimeout = Convert.ToInt32(textBoxReadTime.Text);
+            //_serialPortSLAVE.WriteTimeout = Convert.ToInt32(textBoxWrTime.Text);
+            //_serialPortSLAVE.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandlerSLAVE);
 
             this.WindowState = FormWindowState.Maximized;
             //txtSearch.TextChanged += new System.EventHandler(textBoxTextChanged);
@@ -76,6 +88,80 @@ namespace COM_READER
         StopBits stopBits = new StopBits();
 
         bool first_flag = false;
+        bool flag = false;
+
+
+
+
+        private void DataReceivedHandlerCPU(byte[] BYTE)
+        {
+            if (_continue == true&&flag==false)
+            {
+                try
+                {
+                   Thread.Sleep(300);//Даем больше времени на ожидание данных//////////////////////////////////////////////////////////////////////////////////1
+                    int byteRecieved = COM_CPU.availibleBytes;
+                    prev_count = byteRecieved;
+                    Array.Resize(ref BYTE, byteRecieved);
+                    transfer_arr_CPU = ConcatArray(transfer_arr_CPU, BYTE);
+                    transfer_arr_CPU = ParseForFrame(transfer_arr_CPU);
+                    //if (COM_SLAVE.DtrEnable == true)
+                    //{
+                        COM_SLAVE.SendData(newArray.ToArray());
+                    //}
+                    flag = true;
+                }
+
+                catch (Exception ex)
+                {
+                    listBoxOut.Invoke(new MethodInvoker(delegate ()
+                    {
+                        listBoxOut.Items.Add(ex.ToString());
+                    }
+                                                               ));
+                }
+            }
+         
+        }//Событие появления данных на порту контроллера
+        bool IS_TX = false;
+        private void DataReceivedHandlerSLAVE(byte[] BYTE)
+        {
+            if (_continue == true)//&&flag==true
+            {
+                try
+                {
+                    
+                    Thread.Sleep(300);//Даем больше времени на ожидание данных
+                    int byteRecieved = COM_SLAVE.availibleBytes;
+                    prev_count_SLAVE = byteRecieved;
+                    Array.Resize(ref BYTE, byteRecieved);
+                    transfer_arr_SLAVE = ConcatArray(transfer_arr_SLAVE, BYTE);
+                    COM_SLAVE.DtrEnable = true;
+                    if (COM_SLAVE.DtrEnable == false)
+                    {
+                        flag = false;
+                        COM_CPU.SendData(transfer_arr_SLAVE);
+                        Thread.Sleep(10);
+                       
+                    }
+                    COM_SLAVE.DtrEnable = false;
+                }
+
+                catch (Exception ex)
+                {
+                    listBoxOut.Invoke(new MethodInvoker(delegate ()
+                    {
+                        listBoxOut.Items.Add(ex.ToString());
+                    }
+                                                               ));
+                }
+            }
+         
+
+        }//Событие появления данных на порту, подключенному к полю
+
+
+
 
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -127,16 +213,16 @@ namespace COM_READER
                                         {
                                             handshake = (Handshake)Enum.Parse(typeof(Handshake), listBoxEndHandshake.SelectedItem.ToString(), true);
 
-                                            _serialPortCPU.PortName = portName;
-                                            _serialPortCPU.BaudRate = Convert.ToInt32(baudRate);
-                                            _serialPortCPU.Parity = parity;
-                                            _serialPortCPU.DataBits = dataBits;
-                                            _serialPortCPU.StopBits = stopBits;
-                                            _serialPortCPU.Handshake = handshake;
+                                            //_serialPortCPU.PortName = portName;
+                                            //_serialPortCPU.BaudRate = Convert.ToInt32(baudRate);
+                                            //_serialPortCPU.Parity = parity;
+                                            //_serialPortCPU.DataBits = dataBits;
+                                            //_serialPortCPU.StopBits = stopBits;
+                                            //_serialPortCPU.Handshake = handshake;
                                             first_flag = true;
                                             try
                                             {
-                                                _serialPortCPU.Open();
+                                                //_serialPortCPU.Open();
                                                 btnOpen.Text = "OPEN SLAVE SESSION";
                                             }
                                             catch (Exception ex)
@@ -154,15 +240,15 @@ namespace COM_READER
                                         {
                                             handshake = (Handshake)Enum.Parse(typeof(Handshake), listBoxEndHandshake.SelectedItem.ToString(), true);
 
-                                            _serialPortSLAVE.PortName = portName;
-                                            _serialPortSLAVE.BaudRate = Convert.ToInt32(baudRate);
-                                            _serialPortSLAVE.Parity = parity;
-                                            _serialPortSLAVE.DataBits = dataBits;
-                                            _serialPortSLAVE.StopBits = stopBits;
-                                            _serialPortSLAVE.Handshake = handshake;
+                                            //_serialPortSLAVE.PortName = portName;
+                                            //_serialPortSLAVE.BaudRate = Convert.ToInt32(baudRate);
+                                            //_serialPortSLAVE.Parity = parity;
+                                            //_serialPortSLAVE.DataBits = dataBits;
+                                            //_serialPortSLAVE.StopBits = stopBits;
+                                            //_serialPortSLAVE.Handshake = handshake;
                                             try
                                             {
-                                                _serialPortSLAVE.Open();
+                                                //_serialPortSLAVE.Open();
                                                 btnOpen.Text = "OPEN SLAVE SESSION";
                                             }
                                             catch (Exception ex)
@@ -193,8 +279,8 @@ namespace COM_READER
             else
             {
                 _continue = false;
-                _serialPortCPU.Close();
-                _serialPortSLAVE.Close();
+                //_serialPortCPU.Close();
+                //_serialPortSLAVE.Close();
                 
                 elapsed = 0;
                 start_interval = 0;
@@ -686,12 +772,12 @@ public unsafe class PB_SD2 : PB_Base
                         //dataLen = le - 5;
                         da -= 0x80;
                         sa -= 0x80;
-                        dataLen = le - 5;
+                        dataLen = le - 3;
                         dataBegin = Convert.ToByte(9);
                     }
                     else
                     { 
-                        dataLen = le-3;
+                        dataLen = le-5;
                         dataBegin = Convert.ToByte(7);
                     }
                     //dataLen = areSapsPresented(Pbuf + 5) ? (le - 5) : (le - 3);
@@ -1019,85 +1105,24 @@ public unsafe class PB_SD3 : PB_Base {
             Array.Copy(origArray, 0, newArray, 0, Math.Min(origArray.Length, desiredSize));
             return newArray;
         }
-        private void DataReceivedHandlerCPU(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (_continue == true)
-            {
-                try
-                {
-                    Thread.Sleep(300);//Даем больше времени на ожидание данных//////////////////////////////////////////////////////////////////////////////////1
-                    int byteRecieved = _serialPortCPU.BytesToRead;
-                    prev_count = byteRecieved;
-                    byte[] messByte = new byte[byteRecieved];
-                    _serialPortCPU.Read(messByte, 0, byteRecieved);
-                    transfer_arr_CPU = ConcatArray(transfer_arr_CPU, messByte);
-                    transfer_arr_CPU= ParseForFrame(transfer_arr_CPU);
-                    //transfer_arr_CPU = P_R.ALL_OUTBOX;
-                    _serialPortSLAVE.Write(newArray.ToArray(), 0, newArray.Count);
-                }
 
-                catch (Exception ex)
-                {
-                    listBoxOut.Invoke(new MethodInvoker(delegate()
-                    {
-                        listBoxOut.Items.Add(ex.ToString());
-                    }
-                                                               ));
-                }
-            }
-            else
-            {
-                _serialPortCPU.Close();
-            }
-            
-        }//Событие появления данных на порту контроллера
-        private void DataReceivedHandlerSLAVE(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (_continue == true)
-            {
-                try
-                {
-                    Thread.Sleep(300);//Даем больше времени на ожидание данных
-                    int byteRecieved = _serialPortSLAVE.BytesToRead;
-                    prev_count_SLAVE = byteRecieved;
-                    byte[] messByte = new byte[byteRecieved];
-                    _serialPortSLAVE.Read(messByte, 0, byteRecieved);
-                    transfer_arr_SLAVE = ConcatArray(transfer_arr_SLAVE, messByte);
-                    _serialPortCPU.Write(transfer_arr_SLAVE,0, transfer_arr_SLAVE.Length);
-                    
-                    //transfer_arr_SLAVE = ParseForFrame(transfer_arr_SLAVE);
-                }
-
-                catch (Exception ex)
-                {
-                    listBoxOut.Invoke(new MethodInvoker(delegate()
-                    {
-                        listBoxOut.Items.Add(ex.ToString());
-                    }
-                                                               ));
-                }
-            }
-            else
-            {
-                _serialPortSLAVE.Close();
-            }
-
-        }//Событие появления данных на порту, подключенному к полю
 
         bool IS_OPEN = false;
         string name = "TEST NAME";
         byte[] message = { 0x68, 0x07, 0x07, 0x68, 0xFF, 0x80, 0x46, 0x3A, 0x3E, 0x02, 0x00, 0x3F, 0x16 };
         private void buttonWR_Click(object sender, EventArgs e)
         {
-            _serialPortSLAVE.Write(message, 0,13);
+            //_serialPortSLAVE.Write(message, 0,13);
             try
             {
                 //Thread.Sleep(300);//Даем больше времени на ожидание данных
-                int byteRecieved = _serialPortCPU.BytesToRead;
-                prev_count = byteRecieved;
-                byte[] messByte = new byte[byteRecieved];
-                _serialPortSLAVE.Read(messByte, 0, byteRecieved);
-                MessageBox.Show(messByte.ToString());
+                //int byteRecieved = _serialPortCPU.BytesToRead;
+                //prev_count = byteRecieved;
+                //byte[] messByte = new byte[byteRecieved];
+                //_serialPortSLAVE.Read(messByte, 0, byteRecieved);
+                //MessageBox.Show(messByte.ToString());
+
+
              
             }
 
@@ -2018,19 +2043,20 @@ public unsafe class PB_SD3 : PB_Base {
             }
         }
         bool tested = false;
-        
+        public void READ(byte BYT)
+        {
+
+        }
         private void button5_Click(object sender, EventArgs e)
         {
-            COM_PORT COM2 = new COM_PORT(2, 19200);
-            byte[] IN = null;
-            COM_PORT COM3 = new COM_PORT(3, 19200);
-            COM2.ByteReceived += IN;
-
-
-           
+            COM_SLAVE.SendData(message);
             
+            //COM_CPU.SendData(message);
+
+
+
             //MessageBox.Show(newArray[1924].ToString() + " " + newArray[1925].ToString() + " "+newArray[1926].ToString() + " "+newArray[1927].ToString() + " "+ newArray[1928].ToString() + " ");
-           // ParseForFrame(newArray.ToArray<byte>());
+            // ParseForFrame(newArray.ToArray<byte>());
         }
 
        

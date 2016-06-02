@@ -115,11 +115,11 @@ namespace COM_READER.CLASSES
                 set { serialPort.RtsEnable = value; }
             }
 
-            /// <summary>
-            /// Делегат приема байта
-            /// </summary>
-            /// <param name="data">Принятый байт данных</param>
-            public delegate void OnByteReceived(Byte data);
+        /// <summary>
+        /// Делегат приема байта
+        /// </summary>
+        /// <param name="data">Принятый байт данных</param>
+        public delegate void OnByteReceived(Byte[] data);
 
             /// <summary>
             /// Событие приема байт
@@ -132,7 +132,7 @@ namespace COM_READER.CLASSES
             //--------------------------------------------------------------------------
             #region Private Member Functions
             //Обработка принятого байта
-            private void OnReceiveByte(Byte data)
+            private void OnReceiveByte(Byte []data)
             {
                 //Если на событие приема байт кто-то подписан, то отправляю ему байт
                 if (ByteReceived != null)
@@ -149,13 +149,13 @@ namespace COM_READER.CLASSES
                     try
                     {
                         //получаю количество доступных байт
-                        int availibleBytes = serialPort.BytesToRead;
+                        availibleBytes = serialPort.BytesToRead;
                         if (availibleBytes > 0)
                         {
                             int bytesToRead = availibleBytes < inputBufferSize ? availibleBytes : inputBufferSize;
                             int readedBytes = serialPort.Read(inputBuffer, 0, bytesToRead);
-                            for (int i = 0; i < readedBytes; i++)
-                                OnReceiveByte(inputBuffer[i]);
+                            //for (int i = 0; i < readedBytes; i++)
+                                OnReceiveByte(inputBuffer);
                         }
                         System.Threading.Thread.Sleep(1);
                     }
@@ -191,6 +191,10 @@ namespace COM_READER.CLASSES
             /// Максимальный размер входного буффер
             /// </summary>
             private const int inputBufferSize = 1024;
+            /// <summary>
+            /// Текущий размер входного буффер
+            /// </summary>
+            public int availibleBytes;
 
             #endregion Private Data Members
         //}//class RS232
