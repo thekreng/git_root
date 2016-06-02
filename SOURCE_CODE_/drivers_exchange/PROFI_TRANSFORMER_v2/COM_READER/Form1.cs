@@ -17,8 +17,8 @@ namespace COM_READER
 {
     public partial class Form1 : Form
     {
-        COM_PORT COM_CPU = new COM_PORT(3, 19200);
-        COM_PORT COM_SLAVE = new COM_PORT(2, 19200);
+        COM_PORT COM_CPU;
+        COM_PORT COM_SLAVE;
 
 
 
@@ -30,8 +30,7 @@ namespace COM_READER
         public Form1()
         {
 
-            COM_CPU.ByteReceived += DataReceivedHandlerSLAVE;
-            COM_SLAVE.ByteReceived += DataReceivedHandlerCPU;
+            
 
             //Thread readThread = new Thread(Read);
             InitializeComponent();
@@ -89,7 +88,7 @@ namespace COM_READER
 
         bool first_flag = false;
         bool flag = false;
-
+        bool IS_TX = false;
 
 
 
@@ -105,10 +104,11 @@ namespace COM_READER
                     Array.Resize(ref BYTE, byteRecieved);
                     transfer_arr_CPU = ConcatArray(transfer_arr_CPU, BYTE);
                     transfer_arr_CPU = ParseForFrame(transfer_arr_CPU);
-                    //if (COM_SLAVE.DtrEnable == true)
-                    //{
-                        COM_SLAVE.SendData(newArray.ToArray());
-                    //}
+                    if (IS_TX = false)
+                    {
+                        COM_CPU.SendData(newArray.ToArray());
+                        IS_TX = true;
+                    }
                     flag = true;
                 }
 
@@ -123,7 +123,7 @@ namespace COM_READER
             }
          
         }//Событие появления данных на порту контроллера
-        bool IS_TX = false;
+        
         private void DataReceivedHandlerSLAVE(byte[] BYTE)
         {
             if (_continue == true)//&&flag==true
@@ -131,16 +131,17 @@ namespace COM_READER
                 try
                 {
                     
-                    Thread.Sleep(300);//Даем больше времени на ожидание данных
+                    //Thread.Sleep(300);//Даем больше времени на ожидание данных
                     int byteRecieved = COM_SLAVE.availibleBytes;
                     prev_count_SLAVE = byteRecieved;
                     Array.Resize(ref BYTE, byteRecieved);
                     transfer_arr_SLAVE = ConcatArray(transfer_arr_SLAVE, BYTE);
                     COM_SLAVE.DtrEnable = true;
-                    if (COM_SLAVE.DtrEnable == false)
+                    if (IS_TX == true)
                     {
                         flag = false;
-                        COM_CPU.SendData(transfer_arr_SLAVE);
+                        IS_TX = false;
+                        COM_SLAVE.SendData(transfer_arr_SLAVE);
                         Thread.Sleep(10);
                        
                     }
@@ -211,6 +212,9 @@ namespace COM_READER
                                     {
                                         if (first_flag == false)
                                         {
+                                            COM_CPU = new COM_PORT(portName, Convert.ToInt32(baudRate));
+                                            COM_CPU.ByteReceived += DataReceivedHandlerCPU;
+                                           
                                             handshake = (Handshake)Enum.Parse(typeof(Handshake), listBoxEndHandshake.SelectedItem.ToString(), true);
 
                                             //_serialPortCPU.PortName = portName;
@@ -248,7 +252,8 @@ namespace COM_READER
                                             //_serialPortSLAVE.Handshake = handshake;
                                             try
                                             {
-                                                //_serialPortSLAVE.Open();
+                                                COM_SLAVE = new COM_PORT(portName, Convert.ToInt32(baudRate));
+                                                COM_SLAVE.ByteReceived += DataReceivedHandlerSLAVE;
                                                 btnOpen.Text = "OPEN SLAVE SESSION";
                                             }
                                             catch (Exception ex)
@@ -2049,9 +2054,9 @@ public unsafe class PB_SD3 : PB_Base {
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            COM_SLAVE.SendData(message);
+            COM_CPU.SendData(message);
             
-            //COM_CPU.SendData(message);
+            //COM_SLAVE.SendData(message);
 
 
 

@@ -31,4 +31,3 @@ E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\bin\D
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Debug\COM_READER.Form1.resources
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Debug\COM_READER.Properties.Resources.resources
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Debug\COM_READER.csproj.GenerateResource.Cache
-E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Debug\COM_READER.csprojResolveAssemblyReference.cache

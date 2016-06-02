@@ -21,10 +21,10 @@ namespace COM_READER.CLASSES
             /// </summary>
             /// <param name="comNum">Номер СОМ-порта</param>
             /// <param name="baudRate">Скорость</param>
-            public COM_PORT(byte comNum, int baudRate)
+            public COM_PORT(string comNum, int baudRate)
             {
                 this.comNum = comNum;
-                serialPort = new System.IO.Ports.SerialPort("COM" + comNum.ToString(), baudRate);
+                serialPort = new System.IO.Ports.SerialPort(comNum, baudRate);
                 serialPort.Open();
                 thread = new System.Threading.Thread(ThreadFn);
                 thread.Start();
@@ -76,7 +76,7 @@ namespace COM_READER.CLASSES
             /// <summary>
             /// Текущий номер СОМ-порта
             /// </summary>
-            public Byte ComNum
+            public string ComNum
             {
                 get { return comNum; }
                 set
@@ -142,7 +142,7 @@ namespace COM_READER.CLASSES
             private void ThreadFn(object obj)
             {
                 //создаю входной буффер. Сюда будут писаться данные из последовательного порта
-                Byte[] inputBuffer = new Byte[inputBufferSize];
+                
                 while (true)
                 {
 
@@ -150,7 +150,8 @@ namespace COM_READER.CLASSES
                     {
                         //получаю количество доступных байт
                         availibleBytes = serialPort.BytesToRead;
-                        if (availibleBytes > 0)
+                    Byte[] inputBuffer = new Byte[availibleBytes];
+                    if (availibleBytes > 0)
                         {
                             int bytesToRead = availibleBytes < inputBufferSize ? availibleBytes : inputBufferSize;
                             int readedBytes = serialPort.Read(inputBuffer, 0, bytesToRead);
@@ -178,7 +179,7 @@ namespace COM_READER.CLASSES
             /// <summary>
             /// Номер СОМ-порта
             /// </summary>
-            private Byte comNum;
+            private string comNum;
             /// <summary>
             /// Последовательный порт
             /// </summary>
