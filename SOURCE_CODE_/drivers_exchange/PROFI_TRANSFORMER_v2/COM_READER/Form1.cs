@@ -94,6 +94,7 @@ namespace COM_READER
 
         private void DataReceivedHandlerCPU(byte[] BYTE)
         {
+            Thread.Sleep(100);
             if (_continue == true&&flag==false)
             {
                 try
@@ -104,11 +105,11 @@ namespace COM_READER
                     Array.Resize(ref BYTE, byteRecieved);
                     transfer_arr_CPU = ConcatArray(transfer_arr_CPU, BYTE);
                     transfer_arr_CPU = ParseForFrame(transfer_arr_CPU);
-                    if (IS_TX = false)
-                    {
-                        COM_CPU.SendData(newArray.ToArray());
-                        IS_TX = true;
-                    }
+                   
+                        COM_SLAVE.ByteReceived += DataReceivedHandlerSLAVE;
+                       // COM_SLAVE.SendData(newArray.ToArray());
+                       // COM_CPU.ByteReceived -= DataReceivedHandlerCPU;
+                    
                     flag = true;
                 }
 
@@ -130,21 +131,22 @@ namespace COM_READER
             {
                 try
                 {
-                    
+                   // ParseForFrame(newArray.ToArray<byte>());
                     //Thread.Sleep(300);//Даем больше времени на ожидание данных
                     int byteRecieved = COM_SLAVE.availibleBytes;
                     prev_count_SLAVE = byteRecieved;
                     Array.Resize(ref BYTE, byteRecieved);
                     transfer_arr_SLAVE = ConcatArray(transfer_arr_SLAVE, BYTE);
+                    transfer_arr_SLAVE = ParseForFrame(transfer_arr_SLAVE);
                     COM_SLAVE.DtrEnable = true;
-                    if (IS_TX == true)
-                    {
+            
                         flag = false;
                         IS_TX = false;
-                        COM_SLAVE.SendData(transfer_arr_SLAVE);
+                        COM_CPU.ByteReceived += DataReceivedHandlerCPU;
+                        //COM_CPU.SendData(transfer_arr_SLAVE);
+                        //COM_SLAVE.ByteReceived -= DataReceivedHandlerSLAVE;
                         Thread.Sleep(10);
-                       
-                    }
+                  
                     COM_SLAVE.DtrEnable = false;
                 }
 
@@ -253,7 +255,7 @@ namespace COM_READER
                                             try
                                             {
                                                 COM_SLAVE = new COM_PORT(portName, Convert.ToInt32(baudRate));
-                                                COM_SLAVE.ByteReceived += DataReceivedHandlerSLAVE;
+                                                //COM_SLAVE.ByteReceived += DataReceivedHandlerSLAVE;
                                                 btnOpen.Text = "OPEN SLAVE SESSION";
                                             }
                                             catch (Exception ex)
@@ -1377,8 +1379,23 @@ public unsafe class PB_SD3 : PB_Base {
                                 PB_ELEM.decode();
                               
                                 FRAME_ERRORS = PB_ELEM.display() + "[" + displayErrors(PB_ELEM.getRetCode()) + "]";
+                                if (PB_ELEM.GetDirectType() == "->")
+                                {
+                                    COM_SLAVE.ByteReceived += DataReceivedHandlerSLAVE;
+                                    COM_CPU.ByteReceived -= DataReceivedHandlerCPU;
+                                    COM_SLAVE.SendData(FindFrame);
+                                    break;
+                                    
+                                }
+                                else
+                                {
+                                    COM_SLAVE.ByteReceived -= DataReceivedHandlerSLAVE;
+                                    COM_CPU.ByteReceived += DataReceivedHandlerCPU;
+                                    COM_CPU.SendData(FindFrame);
+                                    break;
+                                }
 
-
+                             
                                 if ((PB_ELEM.GetFCtype() == "SDN (Send Data with No Acknowledge high) " && FindFrame[FindFrame.Length-4]  == 0x02) || RESRV_FACT == true && PB_ELEM.GetDirectType() == "->" )//REMOVE DATA UNIT FROM ARRAY (8 LENGHT)
                                 {
                                     try
@@ -2054,7 +2071,8 @@ public unsafe class PB_SD3 : PB_Base {
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            COM_CPU.SendData(message);
+            COM_SLAVE = new COM_PORT("COM2", 19200);
+            COM_SLAVE.SendData(message);
             
             //COM_SLAVE.SendData(message);
 

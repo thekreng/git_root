@@ -64,3 +64,11 @@ E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.csproj.GenerateResource.Cache
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\bin\Release\COM_READER.exe
 E:\_git_repo\SOURCE_CODE_\drivers_exchange\PROFI_TRANSFORMER_v2\COM_READER\bin\Release\COM_READER.pdb
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.exe
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.pdb
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\bin\Release\COM_READER.exe
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\bin\Release\COM_READER.pdb
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.csprojResolveAssemblyReference.cache
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.Form1.resources
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.Properties.Resources.resources
+C:\Users\Ivani\Desktop\PROFI_TRANSFORMER_v2\COM_READER\obj\x86\Release\COM_READER.csproj.GenerateResource.Cache
