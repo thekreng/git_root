@@ -10,7 +10,6 @@ namespace TestConsoleApp
     {
         void fly();
     }
-
     public interface QuackBehavior
     {
         void quack();
@@ -34,6 +33,14 @@ namespace TestConsoleApp
         public void swim()
         {
             Console.WriteLine("All ducks can swim");
+        }
+
+        public void setFlyBehavior(FlyBehavior fb) {
+            flyBehavior = fb;
+        }
+        public void setQuackBehavior(QuackBehavior qb)
+        {
+            quackBehavior = qb;
         }
     }
     public class MallardDuck : Duck
@@ -60,6 +67,19 @@ namespace TestConsoleApp
             Console.WriteLine("I'm realy Mallard duck");
         }
     }
+    public class ModelDuck : Duck
+    {
+       public ModelDuck() {
+            flyBehavior = new FlyNoWay();
+            quackBehavior = new Quack();
+        }
+        public override void display()
+        {
+            Console.WriteLine("I'm model duck");
+        }
+    }
+    
+
     public class FlyWithWings:FlyBehavior
     {
         public void fly()
@@ -75,6 +95,12 @@ namespace TestConsoleApp
             Console.WriteLine("I can't flying!!!");
         }
 
+    }
+    public class FlyRocketPowered : FlyBehavior {
+        public void fly()
+        {
+            Console.WriteLine("I'm flying with a rocket");
+        }
     }
 
     public class Quack : QuackBehavior {
