@@ -20,7 +20,7 @@ namespace TestConsoleApp
             //mallard.performQuack();
             //mallard.performFly();
             //anotherDuck.performQuack();
-            //anotherDuck.performFly();
+            //anotherDuck.performFly();         STRATEGY
 
             Character queen = new Queen();
             queen.fight();
