@@ -22,13 +22,18 @@ namespace TestConsoleApp
             //anotherDuck.performQuack();
             //anotherDuck.performFly();         STRATEGY
 
-            Character queen = new Queen();
-            queen.fight();
-            queen.setWeapon(new KnifeBehavior());
-            queen.fight();
-            Character LEHA = new Privalsky();
-            LEHA.setWeapon(new BigDick());
-            LEHA.fight();
+           //Character queen = new Queen();
+            //queen.fight();
+            //queen.setWeapon(new KnifeBehavior());
+            //queen.fight();
+            //Character LEHA = new Privalsky();
+            //LEHA.setWeapon(new BigDick());
+            //LEHA.fight();
+            //Duck UTKA = new AnotherDuck();
+            //UTKA.performFly();         STRATEGY
+
+
+
             Console.Read();
 
         }
