@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="CLASSES\OBSERVER\ClassDiagram1.cd" />
     <None Include="CLASSES\STRATEGY_CLASSES\CHARACTER\Characters.cd" />
     <None Include="CLASSES\STRATEGY_CLASSES\DUCK\Duck.cd" />
   </ItemGroup>
